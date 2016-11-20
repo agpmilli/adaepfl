@@ -29,7 +29,11 @@ def label_encode(df, columns):
 def one_hot_encode(df, columns):
     new = pd.DataFrame(df)
     ohe = preprocessing.OneHotEncoder()
-    
+    for col in columns:
+        one_hot = pd.get_dummies(new[col]))
+        new = new.drop(col, axis=1)
+        new = new.join(one_hot)
+    return new
 
 def hot_encode(df, columns):
     return False
