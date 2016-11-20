@@ -26,6 +26,11 @@ def label_encode(df, columns):
         new[col] = le.transform(new[col])
     return new
 
+def one_hot_encode(df, columns):
+    new = pd.DataFrame(df)
+    ohe = preprocessing.OneHotEncoder()
+    
+
 def hot_encode(df, columns):
     return False
 
