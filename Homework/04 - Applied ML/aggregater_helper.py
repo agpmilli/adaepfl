@@ -47,9 +47,9 @@ def from_dyads_to_players_aggregate(df):
 
 def aggregate_dyads_to_players(df, columns_functions):
     new_df = df.copy()
-    for columns, function in functions_columns.items():
+    for columns, function in columns_functions.items():
         for column in columns:
-            if(type(x) is tuple):
+            if(type(column) is tuple):
                 new_df[column[0]] = new_df[column[1]].apply(function)
             else:
                 new_df[column] = new_df[column].apply(function)
