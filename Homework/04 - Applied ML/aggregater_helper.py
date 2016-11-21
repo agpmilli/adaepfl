@@ -1,4 +1,4 @@
-import preprocessing_helper as pprh
+import preprocessing_helper as preproc_helper
 import pandas as pd
 import numpy as np
 from statistics import mode
@@ -44,3 +44,13 @@ def from_dyads_to_players_aggregate(df):
     data.drop('refScore', axis=1, inplace=True)
     data.dropna(inplace=True)
     return data
+
+def aggregate_dyads_to_players(df, columns_functions):
+    new_df = df.copy()
+    for columns, function in functions_columns.items():
+        for column in columns:
+            if(type(x) is tuple):
+                new_df[column[0]] = new_df[column[1]].apply(function)
+            else:
+                new_df[column] = new_df[column].apply(function)
+    return new_df
