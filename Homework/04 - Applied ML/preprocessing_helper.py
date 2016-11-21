@@ -5,20 +5,14 @@ from sklearn.cross_validation import train_test_split
 from sklearn.cross_validation import cross_val_score
 import numpy as np
 
-
-def drop_columns(df, columns):
-    new = pd.DataFrame(df)
-    for col in columns:
-        new = new.drop(col, axis=1)
-    return new
-
 def fill_na_columns(df, columns, filling):
-    new = pd.DataFrame(df)
+    new = df.copy()
     for i in range(len(columns)):
         new[columns[i]].fillna(filling[i], inplace=True)
     return new
 
 def label_encode(df, columns):
+    #new = df.copy()
     new = pd.DataFrame(df)
     le = preprocessing.LabelEncoder()
     for col in columns:
@@ -27,7 +21,7 @@ def label_encode(df, columns):
     return new
 
 def one_hot_encode(df, columns):
-    new = pd.DataFrame(df)
+    new = df.copy()
     ohe = preprocessing.OneHotEncoder()
     for col in columns:
         one_hot = pd.get_dummies(new[col])
@@ -39,7 +33,6 @@ def hot_encode(df, columns):
     return False
 
 def groups_to_lists(grouped, key):
-    #return grouped.aggregate(list)
     return grouped.apply(lambda x: pd.Series(dict([[col,x[col].tolist()] for col in x if col not in [key]])))
 
 def has_same_value(col):
