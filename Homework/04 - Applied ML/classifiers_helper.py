@@ -20,4 +20,4 @@ def plot_importances(clf, data_in, labels_in):
     graph.set_xticklabels(labels=labels_out, rotation=80)
     plt.show()
     
-    return(values_out, labels_out)
+    return(X_train, X_test, y_train, y_test, values_out, labels_out)
