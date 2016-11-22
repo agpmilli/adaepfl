@@ -6,7 +6,9 @@ from sklearn.datasets import load_digits
 from sklearn.model_selection import learning_curve
 from sklearn.model_selection import ShuffleSplit
 
-
+"""
+Taken from http://scikit-learn.org/0.17/auto_examples/model_selection/plot_learning_curve.html#example-model-selection-plot-learning-curve-py
+"""
 def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
                         n_jobs=1, train_sizes=np.linspace(.1, 1.0, 5)):
     """
