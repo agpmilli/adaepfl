@@ -12,8 +12,7 @@ def fill_na_columns(df, columns, filling):
     return new
 
 def label_encode(df, columns):
-    #new = df.copy()
-    new = pd.DataFrame(df)
+    new = df.copy()
     le = preprocessing.LabelEncoder()
     for col in columns:
         le.fit(new[col].unique())
@@ -24,6 +23,8 @@ def one_hot_encode(df, columns):
     new = df.copy()
     ohe = preprocessing.OneHotEncoder()
     for col in columns:
+        #ohe.fit(new[col].unique())
+        #new[col] = ohe.transform(new[col])
         one_hot = pd.get_dummies(new[col])
         new = new.drop(col, axis=1)
         new = new.join(one_hot)

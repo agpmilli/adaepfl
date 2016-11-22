@@ -4,11 +4,11 @@ import numpy as np
 from statistics import mode
 
 def from_dyads_to_players_aggregate(df):
-    aggregate = df.groupby(['playerShort'])
-    aggregate = pprh.groups_to_lists(aggregate, 'playerShort')
-    data = pprh.drop_columns(aggregate,['birthday', 'player', 'photoID', 'Alpha_3', 'refCountry', 'nIAT', 'nExp','index', 'refNum', 'rater1', 'rater2'])
-    data['height'] = pprh.replace_nan(data['height'])
-    data['weight'] = pprh.replace_nan(data['weight'])
+    aggregate = df.copy().groupby(['playerShort'])
+    aggregate = preproc_helper.groups_to_lists(aggregate, 'playerShort')
+    data = preproc_helper.drop_columns(aggregate,['birthday', 'player', 'photoID', 'Alpha_3', 'refCountry', 'nIAT', 'nExp','index', 'refNum', 'rater1', 'rater2'])
+    data['height'] = preproc_helper.replace_nan(data['height'])
+    data['weight'] = preproc_helper.replace_nan(data['weight'])
 
     unique_height = pd.DataFrame(data['height'].apply(lambda row: len(set(row))))
     player_nan_height = unique_height[unique_height['height']==0]
@@ -47,10 +47,10 @@ def from_dyads_to_players_aggregate(df):
 
 def aggregate_dyads_to_players(df, columns_functions):
     new_df = df.copy()
-    for columns, function in columns_functions.items():
+    for columns, function in columns_functions:
         for column in columns:
             if(type(column) is tuple):
-                new_df[column[0]] = new_df[column[1]].apply(function)
+                new_df[column[0]] = df[column[1]].apply(function)
             else:
-                new_df[column] = new_df[column].apply(function)
+                new_df[column] = df[column].apply(function)
     return new_df
