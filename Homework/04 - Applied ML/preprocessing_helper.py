@@ -9,7 +9,8 @@ from sklearn.cross_validation import cross_val_score
 import numpy as np
 
 """
-TODO COMMENT
+encode the given columns using the preprocessing LabelEncoder object
+We fit the encoder on the possible values and then transform our  each column.
 """
 def label_encode(df, columns):
     new = df.copy()
@@ -20,21 +21,21 @@ def label_encode(df, columns):
     return new
 
 """
-TODO COMMENT
+Encode the columns using the one-hot encode.
+returns a new dataframe with the new created columns.
 """
 def one_hot_encode(df, columns):
     new = df.copy()
     ohe = preprocessing.OneHotEncoder()
     for col in columns:
-        #ohe.fit(new[col].unique())
-        #new[col] = ohe.transform(new[col])
         one_hot = pd.get_dummies(new[col])
         new = new.drop(col, axis=1)
         new = new.join(one_hot)
     return new
 
+
 """
-TODO COMMENT
+aggregate a groupby dataframe object as an array per column.
 """
 def groups_to_lists(grouped, key):
     return grouped.apply(lambda x: pd.Series(dict([[col,x[col].tolist()] for col in x if col not in [key]])))
