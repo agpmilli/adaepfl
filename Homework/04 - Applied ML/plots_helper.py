@@ -1,10 +1,10 @@
 import numpy as np
+import itertools
 import matplotlib.pyplot as plt
-from sklearn.naive_bayes import GaussianNB
-from sklearn.svm import SVC
-from sklearn.datasets import load_digits
+import classifiers_helper as class_helper
+import seaborn as sns
 from sklearn.model_selection import learning_curve
-from sklearn.model_selection import ShuffleSplit
+
 
 """
 Taken from http://scikit-learn.org/0.17/auto_examples/model_selection/plot_learning_curve.html#example-model-selection-plot-learning-curve-py
@@ -77,3 +77,51 @@ def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
 
     plt.legend(loc="best")
     return plt
+
+"""
+Taken from http://scikit-learn.org/stable/auto_examples/model_selection/plot_confusion_matrix.html
+"""
+def plot_confusion_matrix(cm, classes,
+                          normalize=False,
+                          title='Confusion matrix',
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    plt.figure()
+    plt.imshow(cm, interpolation='nearest', cmap=cmap)
+    plt.title(title)
+    plt.colorbar()
+    tick_marks = np.arange(len(classes))
+    plt.xticks(tick_marks, classes, rotation=45)
+    plt.yticks(tick_marks, classes)
+
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+    thresh = cm.max() / 2.
+    for i, j in itertools.product(range(cm.shape[0]), range(cm.shape[1])):
+        plt.text(j, i, cm[i, j],
+                 horizontalalignment="center",
+                 color="white" if cm[i, j] > thresh else "black")
+
+    plt.tight_layout()
+    plt.ylabel('True label')
+    plt.xlabel('Predicted label')
+    return plt
+    
+
+"""
+Plot the features' importance for a given classifier.
+
+@param - clf: the classifier
+@param - data_in: the input data 
+@param - labels_in: the output data
+@param - threshold_importance: the threshold required int the classification to plot it
+"""
+def plot_importances(clf, data_in, labels_in, treshold_importance):
+    values_out, labels_out = class_helper.importances(clf, data_in, labels_in, treshold_importance)
+    graph = sns.barplot(labels_out, values_out, palette='GnBu_d')
+    graph.set_xticklabels(labels=labels_out, rotation=80)
+    plt.show()
