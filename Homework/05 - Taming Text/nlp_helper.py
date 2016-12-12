@@ -4,7 +4,11 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
 import pycountry
+import googlemaps
+import credentials
 
+
+#################################### pycountry variables###################################
 a2_name = {}
 a3_name = {}
 for c in pycountry.countries:
@@ -17,6 +21,8 @@ lower_to_name = {}
 for c in pycountry.countries:
     lower_to_name[c.name.lower()] = c.name
 
+
+################################# text processing methods ###############################
 def concat_subj_txt(row):
     subj = '' if pd.isnull(row.ExtractedSubject) else row.ExtractedSubject
     text = '' if pd.isnull(row.ExtractedBodyText) else row.ExtractedBodyText
@@ -63,6 +69,9 @@ def trigram_search(row):
             countries.append(lower_to_name[w])
     return list(set(old + countries))
 
+
+
+########################## WordCloud drawing methods ##########################
 def classic_cloud(text):
     wordcloud = WordCloud(background_color="white").generate(text)
     plt.figure(figsize=(10,10))
@@ -79,3 +88,27 @@ def img_cloud(text, img):
     plt.imshow(wordcloud)
     plt.axis("off")
     plt.show()
+
+
+########################### googlemaps api methods ###########################
+
+
+def locations_2_countries(locations):
+    gmaps = googlemaps.Client(key=credentials.API_KEY)
+    acc = []
+    for location in locations:
+        json = gmaps.geocode(location)
+        if len(json)==0:
+            continue
+        base = json[0]['address_components']
+        loc_type = len(base)
+        acc.append(base[loc_type-1]['long_name'])
+        # if loc_type == 1: #country
+        #     acc.append(base[0]['long_name'])
+        # else: #city or other
+        #     acc.append(base[2]['long_name'])
+    return acc
+
+# def location_2_country(location):
+#     gmaps = googlemaps.Client(key=credentials.API_KEY)
+#     return gmaps.geocode(location)
