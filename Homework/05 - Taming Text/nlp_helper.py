@@ -45,7 +45,7 @@ def bigram_search(row):
     old = row.countries
     countries = []
     for w in row.bigrams:
-        if w in a2_name.keys():
+        if w in a2_name.keys(): 
             countries.append(a2_name[w])
         if w in a3_name.keys():
             countries.append(a3_name[w])
