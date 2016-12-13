@@ -27,7 +27,7 @@ def load_twitter():
 def load_movies():
     pos_docs = [(list(movie_reviews.words(pos_id)), 'pos') for pos_id in movie_reviews.fileids('pos')]
     neg_docs = [(list(movie_reviews.words(neg_id)), 'neg') for neg_id in movie_reviews.fileids('neg')]
-    return pos_docs, neg_docs
+    return pos_docs, neg_docs   
 
 
 def train_classifier(classifier, pos_set, neg_set):
