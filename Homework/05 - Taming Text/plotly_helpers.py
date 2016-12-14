@@ -1,5 +1,9 @@
+import plotly.plotly as py
 from plotly.graph_objs import *
 
+"""
+Plotly helper files. Taken from https://plot.ly/ipython-notebooks/networks/
+"""
 def scatter_nodes(pos, labels=None, color=None, size=20, opacity=1):
     # pos is the dict of node positions
     # labels is a list  of labels of len(pos), to be displayed when hovering the mouse over the nodes
@@ -41,3 +45,41 @@ def make_annotations(pos, text, font_size=14, font_color='rgb(25,25,25)'):
                 showarrow=False)
         )
     return annotations 
+
+def plot_graph(title, G, pos, labels, node_color=None, line_color=None):
+    trace1 = scatter_edges(G, pos, line_color=line_color)
+    trace2 = scatter_nodes(pos, labels=labels, color=node_color)
+
+
+    width=500
+    height=500
+    axis=dict(showline=False, # hide axis line, grid, ticklabels and  title
+              zeroline=False,
+              showgrid=False,
+              showticklabels=False,
+              title='' 
+              )
+    layout=Layout(title= title,  #
+        font= Font(),
+        showlegend=False,
+        autosize=False,
+        width=width,
+        height=height,
+        xaxis=XAxis(axis),
+        yaxis=YAxis(axis),
+        margin=Margin(
+            l=40,
+            r=40,
+            b=85,
+            t=100,
+            pad=0,
+
+        ),
+        hovermode='closest',
+        plot_bgcolor='#EFECEA', #set background color            
+        )
+
+
+    data=Data([trace1, trace2])
+    
+    return Figure(data=data, layout=layout)
