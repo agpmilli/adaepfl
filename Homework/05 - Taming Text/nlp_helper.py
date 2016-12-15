@@ -6,6 +6,8 @@ import numpy as np
 import pycountry
 import googlemaps
 import credentials
+import requests
+#import beautifulsoup4 as bs
 
 
 #################################### pycountry variables###################################
@@ -45,7 +47,7 @@ def bigram_search(row):
     old = row.countries
     countries = []
     for w in row.bigrams:
-        if w in a2_name.keys(): 
+        if w in a2_name.keys():
             countries.append(a2_name[w])
         if w in a3_name.keys():
             countries.append(a3_name[w])
@@ -109,6 +111,11 @@ def locations_2_countries(locations):
         #     acc.append(base[2]['long_name'])
     return acc
 
-# def location_2_country(location):
-#     gmaps = googlemaps.Client(key=credentials.API_KEY)
-#     return gmaps.geocode(location)
+
+def geonames(location):
+    q = "http://api.geonames.org/postalCodeSearch?"
+    r = requests.get(q, params={'placename': location, 'username':'almil36'})
+    # soup = BeautifulSoup(r.text, 'lxml-xml')
+    # for p in soup.find_all('adminCode1'):
+    #    print('OK')
+    print(r.text)
