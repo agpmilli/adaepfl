@@ -72,7 +72,6 @@ def trigram_search(row):
     return list(set(old + countries))
 
 
-
 ########################## WordCloud drawing methods ##########################
 def classic_cloud(text):
     wordcloud = WordCloud(background_color="white").generate(text)
